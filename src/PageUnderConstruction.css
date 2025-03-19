@@ -1,0 +1,20 @@
+.construction-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .construction-container h1 {
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .construction-container p {
+    color: #666;
+    font-size: 1.2rem;
+  }
+  
