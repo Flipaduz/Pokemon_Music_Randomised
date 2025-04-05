@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "../styles/gen.css";
+import { useParams } from "react-router-dom";
 import { getSongs } from "./ListSongs";
+import "../styles/gen.css";
 
-
-function Gen1 () {
-  const [songs, setSongs] = useState(getSongs("gen1", "es"));
+function Gen () {
+  const { generacion } = useParams();
+  const [songs, setSongs] = useState(getSongs(generacion, "es"));
   const [random, setRandom] = useState(Math.floor(Math.random() * songs.length));
   const [audio, setAudio] = useState(new Audio());
   const [isPlaying, setIsPlaying] = useState(false);
@@ -76,7 +77,7 @@ function Gen1 () {
 
   return (
     <>
-      <h1>Canciones de Pokemon</h1>
+      <h1>Canciones de Pokemon <spam>{generacion}</spam></h1>
   
       <div className="buttons">
         <button onClick={reproduceStop}>
@@ -118,4 +119,4 @@ function Gen1 () {
   );
 }
 
-export default Gen1;
+export default Gen;

@@ -7,7 +7,7 @@ const Inicio = () => {
       <div>
         <h1>Bienvenido a la App de Pokémon</h1>
         <div> <br />
-          <Link to="/gen1">
+          <Link to="/gen/gen1">
             <button>Generación I</button> <br /><br />
           </Link>
           <button disabled>Generación II (En construcción)</button> <br /><br />
