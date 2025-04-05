@@ -1,0 +1,120 @@
+import React, { useState, useEffect } from "react";
+import "../styles/gen.css";
+import { getSongs } from "./ListSongs";
+
+
+function Gen1 () {
+  const [songs, setSongs] = useState(getSongs("gen1", "es"));
+  const [random, setRandom] = useState(Math.floor(Math.random() * songs.length));
+  const [audio, setAudio] = useState(new Audio());
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [nameSong, setNameSong] = useState(songs[random].name);
+  const [showName, setShowName] = useState(false);
+  const [listSongs, setListSongs] = useState("");
+
+  useEffect(() => {
+    setAudio(new Audio(songs[random].src));
+    setNameSong(songs[random].name);
+  }, [random]);
+
+  const reproduceStop = () => {
+    if (isPlaying) {
+      audio.pause() ;
+      audio.currentTime = 0;
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const newSong = () => {
+    audio.pause();
+    setIsPlaying(false);
+    setShowName(false);
+    
+    let found = false;
+    while(!found){
+      const rnd = Math.floor(Math.random() * songs.length);
+      if(songs[rnd].active === true){
+        found = true;
+        setRandom(rnd);
+      }
+    }
+  };
+
+  const showSong = () => {
+    showName ? setShowName(false) : setShowName(true);
+  };
+
+  const showListSongs = () => {
+    if (listSongs === ""){
+      let str=""; 
+      for(let i=0; i<songs.length; i++){
+        str += songs[i].name;  
+      }
+      setListSongs(str);
+    }else{
+      setListSongs("")
+    }
+  }
+
+  const saveSelections = async () => {
+    const form = document.getElementById('songSelectionForm');
+    const selectedSongs = Array.from(form.elements)
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+
+    const updatedSongs = songs.map(song => {
+      song.active = selectedSongs.includes(song.name);
+      return song;
+    });
+    setSongs(updatedSongs);
+
+
+  };
+  
+
+  return (
+    <>
+      <h1>Canciones de Pokemon</h1>
+  
+      <div className="buttons">
+        <button onClick={reproduceStop}>
+          {isPlaying ? "Pausar" : "Reproducir"}
+        </button>
+        <button onClick={newSong}>Nueva Canción</button>
+
+        <button onClick={showSong}>Mostrar Cancion</button>
+        {showName && <p>La canción actual es: {nameSong}</p>}
+        
+        <button onClick={showListSongs}>
+          {listSongs === "" ? "Listado" : "Ocultar"}
+        </button>
+        { listSongs &&
+          <div id="checkboxes">
+            <h3>Seleccionar canciones</h3>
+            <form id="songSelectionForm">
+              {songs.map((song, index) => {
+                const b = song.active;
+                return (
+                  <label key={index}>
+                    <input
+                      type="checkbox"
+                      name={`song-${index}`}
+                      value={song.name}
+                      defaultChecked={b}  // Si b es true, el checkbox estará marcado
+                    />
+                    {song.name}<br></br>
+                  </label>
+                );
+              })}
+              <button type="button" onClick={saveSelections}>Guardar</button>
+            </form>
+          </div>
+        }
+      </div>
+    </>
+  );
+}
+
+export default Gen1;
