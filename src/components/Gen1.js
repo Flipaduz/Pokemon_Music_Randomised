@@ -102,9 +102,10 @@ function Gen1 () {
                       type="checkbox"
                       name={`song-${index}`}
                       value={song.name}
-                      defaultChecked={b}  // Si b es true, el checkbox estará marcado
+                      defaultChecked={b}
                     />
-                    {song.name}<br></br>
+                    {song.name}<spam>&nbsp;&nbsp;&nbsp;</spam> 
+                    <audio src={songs[index].src} controls /> <br></br>
                   </label>
                 );
               })}
