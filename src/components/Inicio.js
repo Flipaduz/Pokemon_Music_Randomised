@@ -10,7 +10,9 @@ const Inicio = () => {
           <Link to="/gen/gen1">
             <button>Generación I</button> <br /><br />
           </Link>
-          <button disabled>Generación II (En construcción)</button> <br /><br />
+          <Link to="/gen/gen2">
+            <button>Generación II</button> <br /><br />
+          </Link>
           <button disabled>Generación III (En construcción)</button> <br /><br />
           <button disabled>Generación IV (En construcción)</button> <br /><br />
           <button disabled>Generación V (En construcción)</button> <br /><br />
