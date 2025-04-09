@@ -12,6 +12,13 @@ function Gen () {
   const [nameSong, setNameSong] = useState(songs[random].name);
   const [showName, setShowName] = useState(false);
   const [listSongs, setListSongs] = useState("");
+  const [hasGuess, setHasGuess] = useState(false);
+  const [isGuessCorrect, setIsGuessCorrect] = useState(false);
+
+  const [query, setQuery] = useState("");
+  const filtered = songs.filter((song) =>
+    song.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   useEffect(() => {
     setAudio(new Audio(songs[random].src));
@@ -32,6 +39,8 @@ function Gen () {
     audio.pause();
     setIsPlaying(false);
     setShowName(false);
+    setHasGuess(false);
+    setIsGuessCorrect(false);
     
     let found = false;
     while(!found){
@@ -70,9 +79,13 @@ function Gen () {
       return song;
     });
     setSongs(updatedSongs);
-
-
   };
+
+  const checkChoosenSong = (song) =>{
+    setQuery("");
+    setHasGuess(true);
+    song.name == nameSong ? setIsGuessCorrect(true) : setIsGuessCorrect(false);
+  }
   
 
   return (
@@ -85,7 +98,32 @@ function Gen () {
         </button>
         <button onClick={newSong}>Nueva Canción</button>
 
-        <button onClick={showSong}>Mostrar Cancion</button>
+        <div id="filtradoSong">
+          <input
+            type="text"
+            placeholder="Adivina la cancion"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          {query && (
+            <ul>            
+              {filtered.length > 0 ? (
+                filtered.map((song, index) => (
+                  <li key={index} onClick={() => checkChoosenSong(song)}>
+                    {song.name}
+                  </li>
+                ))
+              ) : (
+                <li>No hay coincidencias</li>
+              )}
+            </ul>
+          )}
+        </div>
+        {hasGuess && 
+          <p>Tu Guess es: {isGuessCorrect ? "Correcto :)" : "Incorrecto :("}</p>
+        }
+
+        <button onClick={showSong}>{showName ? "Ocultar Cancion" : "Mostrar Cancion"}</button>
         {showName && <p>La canción actual es: {nameSong}</p>}
         
         <button onClick={showListSongs}>

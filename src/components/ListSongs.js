@@ -5,20 +5,21 @@ function listSongs(){
 }
 
 export const getSongs = (generation, language) =>  {
-  if(generation === "gen1"){
-    return gen1.map(song =>({ 
+  let gen;
+  switch (generation) {
+    case "gen1":
+      gen = gen1;
+      break;
+    case "gen2":
+      gen = gen2;
+      break;
+  }
+  
+  return gen.map(song =>({ 
       src: song.src,
       name: song.name[language],
       active: song.active
     }))
-  }
-  else if (generation === "gen2"){
-    return gen2.map(song =>({ 
-      src: song.src,
-      name: song.name[language],
-      active: song.active
-    }))
-  }
 }
 
 export default listSongs
